@@ -1,11 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
-import { Alert, FlatList } from "react-native";
+import { Alert, FlatList, Modal, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import { Header } from "@components/Header";
 import { Search } from "@components/Search";
 import { ChartOfAccountItem } from "@components/ChartOfAccountItem";
 import { AccountEmpty } from "@components/AccountEmpty";
+import { ModalConfirmation } from '@components/ModalConfirmation'
 
 import { 
     Container, 
@@ -23,28 +24,23 @@ export const ChartOfAccount = () => {
     const navigation = useNavigation();
 
     const [accounts, setAccounts] = useState<AccountDTO[]>([])
-    const [accountsFiltered, setAccountsFiltered] = useState<AccountDTO[]>([])            
+    const [accountsFiltered, setAccountsFiltered] = useState<AccountDTO[]>([])    
+    const [modalVisible, setModalVisible] = useState(false);
+    const [accountDeleted, setAccountDeleted] = useState<AccountDTO>({} as AccountDTO)        
 
-    const handleDeleteCheck = (item: AccountDTO) => {               
-        Alert.alert('Aviso', 'Deseja realmente excluir esta conta?', [
-            {
-                text: 'Não',
-                style: 'cancel'            
-            },
-            {
-                text: 'Sim',
-                onPress: () => removeAccount(item.id)
-            }
-        ])
-    }
+    const handleDeleteCheck = (item: AccountDTO) => {      
+        setAccountDeleted(item)
+        setModalVisible(true)
+    }    
 
     const handleAddAccount = () => {
         navigation.navigate('newAccount')
     }
 
-    const removeAccount = async (id: string) => {
+    const removeAccount = async () => {
         try {
-            await removeAccountById(id);
+            await removeAccountById(accountDeleted.id);
+            setModalVisible(false);
             fetchAccounts();
         } catch (error) {
             Alert.alert('Aviso', 'Desculpe, ocorreu o erro. Favor entrar em contato com o suporte.')
@@ -115,6 +111,17 @@ export const ChartOfAccount = () => {
                             accounts.length === 0 && {flex: 1}
                         ]}
                     />                               
+            
+                {modalVisible && (
+                    <ModalConfirmation 
+                        onCancel={() => setModalVisible(false)}
+                        onConfirm={removeAccount}
+                        visible={modalVisible} 
+                        textConfirmation="Deseja excluir essa conta"
+                        textHighlight={`${accountDeleted.id} - ${accountDeleted.name}`}
+                        iconName="delete-outline"
+                    />
+                 )}
                 
             </Content>           
         </Container>
