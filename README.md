@@ -1,4 +1,4 @@
-# ucondofinancas
+# uCondo Finanças
 App para controle de fiananças. Desafio para o teste de Front end da UCondo
 
 ## Sobre o desenvolvimento
