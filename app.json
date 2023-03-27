@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "ucondofinancas",
+    "name": "Ucondo Finanças",
     "slug": "ucondofinancas",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,22 +9,33 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#622490"
     },
     "assetBundlePatterns": [
       "**/*"
+    ],
+    "platforms": [
+      "ios",
+      "android"
     ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "br.marcoscorrea.ucondofinancas",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#622490"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5563fe36-28fb-4baf-a832-c4902688a7cd"
+      }
     }
   }
 }
